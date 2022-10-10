@@ -6,12 +6,12 @@ const db = require('../src/dbClient')
 chai.use(chaiHttp)
 
 describe('User REST API', () => {
-  
+
     beforeEach(() => {
       // Clean DB before each test
       db.flushdb()
     })
-    
+
     after(() => {
       app.close()
       db.quit()
@@ -38,7 +38,6 @@ describe('User REST API', () => {
            throw err
         })
     })
-    
     it('pass wrong parameters', (done) => {
       const user = {
         firstname: 'Sergei',
