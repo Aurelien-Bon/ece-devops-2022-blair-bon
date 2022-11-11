@@ -9,7 +9,12 @@ var db = redis.createClient({
     return new Error("Retry time exhausted")
   }
 })
-
+db.on("error", (err) => {
+  console.error(err)
+})
+db.on('connect', function() {
+  console.log('Connected!');
+});
 process.on('SIGINT', function() {
   db.quit();
 });

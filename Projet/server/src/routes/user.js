@@ -5,7 +5,7 @@ const userRouter = express.Router()
 
 userRouter
   .post('/', (req, resp,next) => {
-    userController.create(req.body, (err, res) => {
+    userController.create(req.query, (err, res) => {
       let respObj
       if(err) {
         respObj = {

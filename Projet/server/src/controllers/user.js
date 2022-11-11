@@ -4,6 +4,7 @@ const {parse, stringify, toJSON, fromJSON} = require('flatted');
 module.exports = {
   create: (user, callback) => {
     // Check parameters
+    console.log(user)
     if(!user.username)
       return callback(new Error("Wrong user parameters"), null)
     // Create User schema
@@ -12,10 +13,10 @@ module.exports = {
       lastname: user.lastname,
     }
     // Save user in Redis
-    db.hmget(username, ['firstname','lastname'],(err,res)=>{
+    db.get(user.username, ['firstname','lastname'],(err,res)=>{
       if(err) return callback(err, null)
       if(res[0] && res[1]) return callback(new Error("User already exists"), null)
-      db.hmset(username, userObj, (err, res) => {
+      db.set(user.username, userObj, (err, res) => {
         if(err) return callback(err, null)
         return callback(null, res)
       })
@@ -28,17 +29,17 @@ module.exports = {
       firstname: '',
       lastname: '',
     }
-    db.hmget(username, ['firstname','lastname'],(err,res)=>{
+    db.hmGet(username, ['firstname','lastname'],(err,res)=>{
       if(err) return callback(err, null)
       callback(null,res)
 
     })
   },
-  delete: (username,callback)=>
+  delete: (user,callback)=>
   {
-    if(!username)
+    if(!user.username)
       return callback(new Error("Wrong user parameters"), null)
-    db.hmdel(username,(err,res)=>{
+    db.del(user.username,(err,res)=>{
       if(err) return callback(err, null)
       callback(null,res)
     })
