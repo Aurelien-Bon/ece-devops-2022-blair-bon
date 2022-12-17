@@ -4,18 +4,19 @@ const {parse, stringify, toJSON, fromJSON} = require('flatted');
 module.exports = {
   create: (user, callback) => {
     // Check parameters
-    if(!user.username)
+    if(!user.username || !user.firstname || !user.lastname)
       return callback(new Error("Wrong user parameters"), null)
-    // Create User schema
-    const userObj = {
-      firstname: user.firstname,
-      lastname: user.lastname,
-    }
     // Save to DB
-    // TODO check if user already exists
-    db.hmset(user.username, userObj, (err, res) => {
-      if (err) return callback(err, null)
-      callback(null, res) // Return callback
+    db.hmget(user.username, ['firstname','lastname'],(err,res)=>{
+      if(err) return callback(err, null)
+      if(res[0]!==null){
+        return callback(new Error("User already exists"), null)
+      }
+      db.hmset(user.username, {'firstname':user.firstname,'lastname':user.lastname}, (err, res) => {
+        if (err) return callback(err, null)
+        callback(null, res) // Return callback
+      }
+      )
     })
   },
   get: (username,callback) => {
@@ -27,8 +28,37 @@ module.exports = {
     }
     db.hmget(username, ['firstname','lastname'],(err,res)=>{
       if(err) return callback(err, null)
+      if(res[0]===null){
+        return callback(new Error("User does not exist"), null)
+      }
       callback(null,res)
 
+    })
+  },
+  update: (username,user, callback) => {
+    if(!username || !user.firstname || !user.lastname)
+      return callback(new Error("Wrong user parameters"), null)
+    const userObj = {
+      firstname: user.firstname,
+      lastname: user.lastname,
+    }
+    db.hmget(username, ['firstname','lastname'],(err,res)=>{
+      if(err) return callback(err, null)
+      if(res[0]==null){
+        return callback(new Error("User not existe"), null)
+      }
+    })
+    db.hmset(username, userObj, (err, res) => {
+      if (err) return callback(err, null)
+      callback(null, res) // Return callback
+    })
+  },
+  delete: (username, callback) => {
+    if(!username)
+      return callback(new Error("Wrong user parameters"), null)
+    db.del(username, (err, res) => {
+      if (err) return callback(err, null)
+      callback(null, res) // Return callback
     })
   }
 }
