@@ -1,25 +1,28 @@
 {
-  "name": "ece-devop-blair-bon-projet",
+  "name": "ece-userapi",
   "version": "1.0.0",
-  "description": "",
-  "main": "scr/index.js",
+  "description": "User API web application",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "mocha test/*.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Sergei Kudinov",
+  "license": "",
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.17.2",
     "flatted": "^3.2.7",
     "mixme": "^0.5.4",
-    "redis": "^4.5.0"
+    "redis": "^3.1.2"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
+    "chai": "^4.3.6",
     "chai-http": "^4.3.0",
-    "eslint": "^8.27.0",
-    "eslint-plugin-mocha": "^10.1.0",
-    "mocha": "^10.1.0"
+    "eslint": "^8.9.0",
+    "eslint-plugin-mocha": "^10.0.3",
+    "mocha": "^9.2.2"
+  },
+  "mocha": {
+    "timeout": 10000
   }
 }

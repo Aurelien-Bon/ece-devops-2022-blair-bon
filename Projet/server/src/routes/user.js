@@ -5,7 +5,7 @@ const userRouter = express.Router()
 
 userRouter
   .post('/', (req, resp,next) => {
-    userController.create(req.query, (err, res) => {
+    userController.create(req.body, (err, res) => {
       let respObj
       if(err) {
         respObj = {
@@ -38,23 +38,6 @@ userRouter
       }
       resp.status(201).json(respObj)
      })
-    })
-    .delete('/del:/username',(req,rep,next)=>{
-      const username=req.params.username
-      userController.delete(username,(err,res)=>{
-        let respObj
-        if(err){
-          respObj={
-            status:"error",
-            msg:err.message
-          }
-          return resp.status(400).json(respObj)
-        }
-        respObj={
-          status:"success",
-          msg:res
-        }
-        resp.status(201).json(respObj)
-      })
-    })
+})
+  
 module.exports = userRouter
