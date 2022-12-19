@@ -15,13 +15,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-   services:
+    services:
      # Label used to access the service container
-     redis:
-       # Docker Hub image
-       image: redis
-       # Set health checks to wait until redis has started
-       options: >-
+      redis:
+        # Docker Hub image
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
          --health-cmd "redis-cli ping"
          --health-interval 10s
          --health-timeout 5s
