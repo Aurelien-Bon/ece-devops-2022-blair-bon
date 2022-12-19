@@ -41,6 +41,7 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+        working-directory: ./Projet/server
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -69,4 +70,3 @@ jobs:
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EEB50C76690B4B2AB4D10535296CDA99 }}
           package: .
-          working-directory: ./Projet/server
