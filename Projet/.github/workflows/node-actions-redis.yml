@@ -1,0 +1,56 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./TP3
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+   services:
+     # Label used to access the service container
+     redis:
+       # Docker Hub image
+       image: redis
+       # Set health checks to wait until redis has started
+       options: >-
+         --health-cmd "redis-cli ping"
+         --health-interval 10s
+         --health-timeout 5s
+         --health-retries 5
+        ports:
+          # Maps tcp port 6379 on service container to the host
+          - 6379:6379
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        redis-version: [3, 4, 5, 6]
+
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.4.0
+      with:
+        redis-version: ${{ matrix.redis-version }}
+
+    - run : npm ci
+    - run: npm run build --if-present
+    - run: npm test
+      env:
+        CI: true
