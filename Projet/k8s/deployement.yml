@@ -1,9 +1,7 @@
-#get server image from docker hub: https://hub.docker.com/repository/docker/ahddry/server-devops-blair-bon-2022 and run it with redis host and port
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: server-deployment
-
 spec:
   selector:
     matchLabels:
@@ -12,20 +10,22 @@ spec:
     metadata:
       labels:
         app: server-deployment
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
-        - name: server
-          image: ahddry/server-devops-blair-bon-2022
-          ports:
-            - containerPort: 3000
         - name: redis
-          image: redis:lastest
+          image: redis
           ports:
             - containerPort: 6379
           volumeMounts:
-            - name: redis-data
-              mountPath: /data
-              readOnly: false
+            - mountPath: /srv/www
+              name: redis-data
+        - name: server
+          image: ahddry/server-devops-blair-bon-2022
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
       volumes:
         - name: redis-data
           persistentVolumeClaim:

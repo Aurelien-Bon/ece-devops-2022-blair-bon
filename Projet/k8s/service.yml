@@ -4,8 +4,8 @@ metadata:
   name: server-service
 spec:
   ports:
-    - port: 3000
-      protocol: TCP
+  - port: 3000
+    protocol: TCP
   type: NodePort
   selector:
     app: server-deployment
