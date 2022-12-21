@@ -23,7 +23,7 @@ spec:
               name: redis-data
         - name: server
           image: ahddry/server-devops-blair-bon-2022
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
       volumes:
