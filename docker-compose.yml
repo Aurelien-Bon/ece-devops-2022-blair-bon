@@ -10,10 +10,9 @@ services:
     networks:
       - webnet
   app:
-    # COMPLETE HERE
-    build: ./server
+    build: ./userapi
     volumes:
-      - ./server:/usr/src/app
+      - ./userapi:/usr/src/app
     ports:
       - "3000:3000"
     depends_on:
