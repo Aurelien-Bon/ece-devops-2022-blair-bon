@@ -8,8 +8,44 @@ spec:
   gateways:
     - server-gateway
   http:
-    - route:
+    - name: "server-service-v1"
+      match:
+        - uri:
+            prefix: /v1/
+      rewrite:
+        uri: /
+      route:
         - destination:
             host: server-service
+            subset: v1
             port:
               number: 3000
+    - name: "server-service-v2"
+      match:
+        - uri:
+            prefix: /v2/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: server-service
+            subset: v2
+            port:
+              number: 3000
+    - name: "server-service"
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: server-service
+            subset: v1
+            port:
+              number: 3000
+          weight: 50
+        - destination:
+            host: server-service
+            subset: v2
+            port:
+              number: 3000
+          weight: 50
