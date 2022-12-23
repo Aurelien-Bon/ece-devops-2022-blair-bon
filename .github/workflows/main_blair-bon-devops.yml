@@ -41,7 +41,7 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-        working-directory: ./Projet/server
+        working-directory: ./userapi
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
