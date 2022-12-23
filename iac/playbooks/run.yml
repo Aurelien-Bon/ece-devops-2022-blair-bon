@@ -1,5 +1,5 @@
 ---
-- hosts: centos.server
+- hosts: centos_server
   # Run commands as root
   become: true
   # Roles to be executed on these hosts

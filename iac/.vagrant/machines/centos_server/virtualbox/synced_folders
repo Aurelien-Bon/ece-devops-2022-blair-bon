@@ -1,1 +1,1 @@
-{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/adri/OneDrive/Documents/Travail/DevOps/ece-devops-2022-blair-bon/Projet/IaC","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/adri/Documents/DevOps/ece-devops-2022-blair-bon/iac","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
