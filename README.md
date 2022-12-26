@@ -77,7 +77,39 @@ Nous n'avons cependant pas réussi à configurer la base de donnée pour la vers
 
 ### 3. Configurer et provisionner un environnement virtuel et lancer l'application avec l'approche **IaC**
 
-Pour lancer la machine virtuelle Vagrant,
+Pour lancer la machine virtuelle Vagrant, il faut tout d'abord se rendre dans le dossier [iac](/iac) et lancer la commande suivante :
+
+```bash
+vagrant up
+```
+
+![vagrant up](image/vagrant-up.png)
+
+Pour vérifier que la machine virtuelle est bien lancée, lancer la commande suivante, le résultat devrait être **running (virtualbox)** :
+
+```bash
+vagrant status
+```
+
+![vagrant status](image/vagrant-status.png)
+
+Pour ensuite importer les playbooks Ansible, il faut rentrer la commande suivante :
+
+```bash
+vagrant upload playbooks /vagrant/playbooks centos_server
+```
+
+![vagrant upload playbooks /vagrant/playbooks centos_server](image/vagrant-upload.png)
+
+Pour lancer les playbooks Ansible, il faut rentrer la commande suivante :
+
+```bash
+vagrant provision
+```
+
+Le résultat devrait être le suivant :
+
+![vagrant provision](image/vagrant-provision.png)
 
 ### 4. Build une image Docker de l'application
 
@@ -87,11 +119,15 @@ Un DockerFile est créé dans le dossier [userapi](/userapi) pour créer une ima
 docker build -t server .
 ```
 
+![docker build](image/docker-build.png)
+
 Pour lancer l'image, il faut lancer la commande suivante, en ayant **redis** de lancé en arrière plan :
 
 ```bash
 docker run -p 3000:3000 server
 ```
+
+![docker run -p 3000:3000 server](image/docker-run-p.png)
 
 L'application est alors accessible à l'adresse suivante : <http://localhost:3000/>.
 
@@ -104,6 +140,8 @@ docker run -p 3000:3000 ahddry/server-devops-blair-bon-2022
 ```
 
 L'application est alors accessible à l'adresse suivante : <http://localhost:3000/>.
+
+![docker run](image/docker-run.png)
 
 ### 5. Faire de l'orchestration avec **Docker Compose**
 
@@ -205,7 +243,11 @@ Le terminal affiche ceci :
 
 ![export gateway_url](image/export-gateway-url.png)
 
-Cliquer sur l'un des liens affichés dans le terminal permet d'accéder à la version correspondante de l'application. Pour accéder au dashboard de **Istio** et ainsi voir les différentes requêtes envoyées à l'application, il faut lancer la commande suivante :
+Cliquer sur l'un des liens affichés dans le terminal permet d'accéder à la version correspondante de l'application.
+
+![versions application](image/versions.png)
+
+Pour accéder au dashboard de **Istio** et ainsi voir les différentes requêtes envoyées à l'application, il faut lancer la commande suivante :
 
 ```bash
 istioctl dashboard kiali
@@ -243,7 +285,7 @@ Le dashboard de **Grafana** s'ouvre alors dans le navigateur, voilà un exemple 
 
 ### 9. **Bonus** réalisés
 
-- API **CRUD** étendue
+- API **CRUD** avancée avec des tests plus poussés que dans le TP 3.
 
 ## Contributeurs
 

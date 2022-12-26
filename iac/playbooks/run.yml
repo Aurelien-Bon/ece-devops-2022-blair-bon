@@ -4,6 +4,8 @@
   become: true
   # Roles to be executed on these hosts
   roles:
+    - role: redis/install
+      tags: install
 
-  - role: redis/healthchecks
-    tags: check
+    - role: redis/healthchecks
+      tags: check

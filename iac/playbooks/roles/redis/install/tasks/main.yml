@@ -2,40 +2,41 @@
 - name: Install required packages
   yum:
     name:
-      - curl
-      - policycoreutils-python
-      - openssh-server
-    state: latest
+      - redis
+    state: present
 
-- name: Enable and start sshd
+- name: Start redis service
   service:
-    name: sshd
+    name: redis
     state: started
     enabled: yes
 
-- name: Enable HTTP+HTTPS access
-  firewalld:
-    # This is how we use a variable
-    service: "{{ item }}"
-    permanent: yes
-    state: enabled
-  # The module will be run for each item
-  with_items:
-    - http
-    - https
+- name: Info about redis
+  debug:
+    msg: "Redis installed and running"
 
-- name: Reload firewalld
-  service:
-    name: firewalld
-    state: reloaded
+# - name: Check redis --health
+#   uri:
+#     url: http://localhost:6379/health
+#     status_code: 200
+#     return_content: yes
+#   register: redis_health
+#   retries: 5
+#   delay: 10
+#   until: redis_health.status == 200
+#   tags: healthchecks
 
-- name: Install postfix
-  yum:
-    name: postfix
-    state: latest
+# - name: Check redis --ping
+#   uri:
+#     url: http://localhost:6379/ping
+#     status_code: 200
+#     return_content: yes
+#   register: redis_ping
+#   retries: 5
+#   delay: 10
+#   until: redis_ping.status == 200
+#   tags: healthchecks
 
-- name: Enable and start postfix
-  service:
-    name: postfix
-    state: started
-    enabled: yes
+# - name: Info about redis
+#   debug:
+#     msg: "Redis healthchecks passed"
